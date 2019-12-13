@@ -1,0 +1,35 @@
+{
+  "name": "@acme-bookshop/backend",
+  "version": "1.0.0",
+  "author": "Griko Nibras <hello@griko.id>",
+  "repository": "git@github.com:acme-bookshop/backend.git",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-status-codes": "^1.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.3.5",
+    "mongoose": "^5.7.14",
+    "validator": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "husky": "^3.1.0",
+    "nodemon": "^2.0.1",
+    "prettier": "^1.19.1"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "start:db": "docker-compose up -d acme_database",
+    "watch": "nodemon --watch src src/index.js",
+    "format": "prettier --config .prettierrc --write src/**/*.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format"
+    }
+  },
+  "license": "MIT"
+}

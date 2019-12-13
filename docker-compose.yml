@@ -1,0 +1,35 @@
+version: '2'
+
+networks:
+  acme_network:
+    driver: bridge
+
+services:
+  acme_database:
+    image: bitnami/mongodb
+    container_name: acme_database
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=acme_database
+    networks:
+      - acme_network
+    ports:
+      - 27017:27017
+    volumes:
+      - acme_data:/bitnami
+
+  acme_server:
+    build: .
+    image: acmebookshop/backend
+    container_name: acme_server
+    depends_on:
+      - acme_database
+    environment:
+      - DB_HOST=acme_database
+    networks:
+      - acme_network
+    ports:
+      - 3000:3000
+
+volumes:
+  acme_data:
+    driver: local
