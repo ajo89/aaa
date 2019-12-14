@@ -105,4 +105,34 @@ router.get('/booksImage/:id', async (req, res) => {
 })
 ////
 
+router.post('/booksSearch', auth, async (req, res) => {
+  try {
+  
+    const { keyword } = req.body
+    const books = await   Book.find({ "title": { $regex: '.*' + keyword + '.*' } },
+   function(err,data){
+         console.log('data',data);
+  });
+
+    res.send({ books })
+  } catch (error) {
+    res.status(sc.INTERNAL_SERVER_ERROR).send({ error })
+  }
+})
+
+router.post('/booksSearchbyCategory', auth, async (req, res) => {
+  try {
+  
+    const { keyword } = req.body
+    const books = await   Book.find({ "title": { $regex: '.*' + keyword + '.*' } },
+   function(err,data){
+         console.log('data',data);
+  });
+
+    res.send({ books })
+  } catch (error) {
+    res.status(sc.INTERNAL_SERVER_ERROR).send({ error })
+  }
+})
+
 module.exports = router
