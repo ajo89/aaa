@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const sc = require('http-status-codes')
-
+const multer = require('multer')
 const auth = require('../middlewares/auth')
 
 const Book = require('../models/Book')
@@ -57,15 +57,14 @@ router.delete('/books/:id', auth, async (req, res) => {
   }
 })
 
-router.patch('/books/:id',auth,async(req,res)=>{
+router.patch('/books/:id', auth, async (req, res) => {
   try {
-    const book = await Book.findByIdAndUpdate(req.params.id,req.body)
+    const book = await Book.findByIdAndUpdate(req.params.id, req.body)
     res.send(book)
   } catch (error) {
-    res.status(sc.INTERNAL_SERVER_ERROR).send({error})
+    res.status(sc.INTERNAL_SERVER_ERROR).send({ error })
   }
 })
-
 
 ////untested
 const upload = multer({
@@ -83,7 +82,7 @@ router.post(
   auth,
   upload.single('imagee'),
   async (req, res) => {
-    const book = await Book.findByIdAndUpdate(req.params.id,req.file.buffer)
+    const book = await Book.findByIdAndUpdate(req.params.id, req.file.buffer)
     await book.save()
     res.send({ message: 'berhasil di upload' })
   },
@@ -105,6 +104,5 @@ router.get('/booksImage/:id', async (req, res) => {
   }
 })
 ////
-
 
 module.exports = router

@@ -24,19 +24,18 @@ const BookSchema = new Schema({
     required: true,
   },
   writer: {
-    type: String
+    type: String,
   },
-  publisher :{
-    type: String
+  publisher: {
+    type: String,
   },
-  weight :{
+  weight: {
     type: Number,
-    default:0
+    default: 0,
   },
-  imagee : {
+  imagee: {
     type: Buffer,
-  }
-
+  },
 })
 
 const Book = model('Book', BookSchema)

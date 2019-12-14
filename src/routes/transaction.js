@@ -85,8 +85,8 @@ router.get('/transaction/open', auth, async ({ user }, res) => {
 //return ada cart yg open ga,klo ada tampilin
 router.post('/transaction/open', auth, async (req, res) => {
   try {
-    const {user_id} = req.body
-    const newTrans = await new Transaction({user_id})
+    const { user_id } = req.body
+    const newTrans = await new Transaction({ user_id })
     await newTrans.save()
     res.send(newTrans.id)
   } catch (error) {
@@ -100,10 +100,9 @@ router.post('/transactionsInsert', auth, async (req, res) => {
     const { trans_id, book_id, qty, price, subtotal } = req.body
 
     const a = await Transaction.findOne({ _id: trans_id })
-    a.total=Number(a.total)+Number(subtotal)
+    a.total = Number(a.total) + Number(subtotal)
     a.items.push({ book_id, qty, price, subtotal })
     await a.save()
-    
 
     res.send(sc.OK)
   } catch (error) {
@@ -131,26 +130,26 @@ router.delete('/transaction', auth, async ({ user }, res) => {
 //remove 1 item by userID -- on progress,kok dibuang 1 object?
 router.delete('/transactionItem/:id', auth, async (req, res) => {
   try {
-
     //cari subtotal dari ID, trs update
     // const a = await Transaction.findOne({ 'items._id' : req.params.id}).select({ 'item': 1, '_id': 0 }).exec( function(err, friendObj){
     //   console.log(friendObj)
     // })
-// const a = await Transaction.find({ 'items._id' : req.params.id})
-//     const result = a.items.pull({_id: req.params.id})
+    // const a = await Transaction.find({ 'items._id' : req.params.id})
+    //     const result = a.items.pull({_id: req.params.id})
 
-const b = Transaction.find({},{},{},)
+    const b = Transaction.find({}, {}, {})
 
-const a = Transaction.findOne({'items._id' : req.params.id}).select({ items: {$elemMatch: {id: req.params.id}}})
-console.log(a);
+    const a = Transaction.findOne({ 'items._id': req.params.id }).select({
+      items: { $elemMatch: { id: req.params.id } },
+    })
+    console.log(a)
 
-    const result= await Transaction.update(
+    const result = await Transaction.update(
       {},
-      {$pull: { items:{_id : req.params.id }}},
-      { multi:true }
+      { $pull: { items: { _id: req.params.id } } },
+      { multi: true }
     )
 
-    
     //ini perintah malah buang object
     // const result = await Transaction.deleteOne({
     //   'items._id' : req.params.id,
@@ -165,7 +164,7 @@ console.log(a);
 //update status jadi closed
 router.patch('/transaction/:id', auth, async (req, res) => {
   try {
-   const transaction= await Transaction.findOneAndUpdate(
+    const transaction = await Transaction.findOneAndUpdate(
       {
         _id: req.params.id,
       },
