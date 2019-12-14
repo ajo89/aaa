@@ -57,4 +57,54 @@ router.delete('/books/:id', auth, async (req, res) => {
   }
 })
 
+router.patch('/books/:id',auth,async(req,res)=>{
+  try {
+    const book = await Book.findByIdAndUpdate(req.params.id,req.body)
+    res.send(book)
+  } catch (error) {
+    res.status(sc.INTERNAL_SERVER_ERROR).send({error})
+  }
+})
+
+
+////untested
+const upload = multer({
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error('Please upload an image'))
+    }
+
+    cb(undefined, true)
+  },
+})
+
+router.post(
+  '/booksImage/:id',
+  auth,
+  upload.single('imagee'),
+  async (req, res) => {
+    const book = await Book.findByIdAndUpdate(req.params.id,req.file.buffer)
+    await book.save()
+    res.send({ message: 'berhasil di upload' })
+  },
+  (error, req, res) => {
+    res.status(400).send({ error: error.message })
+  }
+)
+
+router.get('/booksImage/:id', async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id)
+    if (!book || !book.imagee) {
+      throw Error()
+    }
+    res.set('Content-Type', 'image/png')
+    res.send(book.imagee)
+  } catch (e) {
+    res.status(404).send({ message: 'image not found' })
+  }
+})
+////
+
+
 module.exports = router

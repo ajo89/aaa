@@ -1,8 +1,8 @@
 {
-  "name": "@acme-bookshop/backend",
+  "name": "@fiola/backend",
   "version": "1.0.0",
-  "author": "Griko Nibras <hello@griko.id>",
-  "repository": "git@github.com:acme-bookshop/backend.git",
+  "author": "Fiola team",
+  "repository": "https://github.com/ajo89/aaa.git",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -12,6 +12,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.3.5",
     "mongoose": "^5.7.14",
+    "multer": "^1.4.2",
     "validator": "^12.1.0"
   },
   "devDependencies": {

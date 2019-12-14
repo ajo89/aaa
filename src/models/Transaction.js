@@ -62,9 +62,10 @@ TransactionSchema.methods.insertItems = async function({
   return this.item_id
 }
 
+
 TransactionSchema.pre('save', async function(next) {
   // TODO: add stock checking
-  this.total_price = this.qty * this.price
+  //this.total_price = this.qty * this.price
   next()
 })
 
