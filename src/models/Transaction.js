@@ -6,28 +6,59 @@ const TransactionSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  book_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'Book',
-    required: true,
-  },
-  qty: {
+  items: [
+    {
+      item_id:{
+          type :Schema.Types.ObjectId
+      },
+      book_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
+        required: true,
+      },
+      qty: {
+        type: Number,
+        required: true,
+        validate(value) {
+          if (value < 1) {
+            throw new Error('Value must be more than 1')
+          }
+        },
+      },
+      price: {
+        type: Number,
+        required: true,
+      },
+      subtotal: {
+        type: Number,
+        }
+    }
+  ],
+  
+  total : {
     type: Number,
     required: true,
-    validate(value) {
-      if (value < 1) {
-        throw new Error('Value must be more than 1')
-      }
-    },
   },
-  price: {
-    type: Number,
-    required: true,
-  },
-  total_price: {
-    type: Number,
-  },
-})
+  status : {
+    type : String,
+    enum: ['OPEN', 'CLOSED'],
+    default: 'OPEN',
+  }
+},
+  {
+    timestamps: true,
+  }
+
+  
+)
+
+TransactionSchema.methods.insertItems = async function({book_id,qty,price,subtotal}){
+  this.items.push({ book_id,qty,price,subtotal })
+  await this.save()
+  return this.item_id 
+}
+
+
 
 TransactionSchema.pre('save', async function(next) {
   // TODO: add stock checking

@@ -26,8 +26,12 @@ router.post('/books', auth, async (req, res) => {
 
 router.get('/books/:id', auth, async (req, res) => {
   try {
-    const book = Book.findById(req.params.id)
+    // Book.find({"id":req.params.id},function(e,docs){
+    //   res.json(docs);
+    // })
+    const book = await Book.findById(req.params.id)
     if (book) {
+      book.count=book.count
       res.send({ book })
     } else {
       res.sendStatus(sc.NOT_FOUND)
