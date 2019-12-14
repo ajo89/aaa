@@ -31,7 +31,7 @@ router.get('/books/:id', auth, async (req, res) => {
     // })
     const book = await Book.findById(req.params.id)
     if (book) {
-      book.count=book.count
+      book.count = book.count
       res.send({ book })
     } else {
       res.sendStatus(sc.NOT_FOUND)
