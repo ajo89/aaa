@@ -107,12 +107,13 @@ router.get('/booksImage/:id', async (req, res) => {
 
 router.post('/booksSearch', auth, async (req, res) => {
   try {
-  
     const { keyword } = req.body
-    const books = await   Book.find({ "title": { $regex: '.*' + keyword + '.*' } },
-   function(err,data){
-         console.log('data',data);
-  });
+    const books = await Book.find(
+      { title: { $regex: '.*' + keyword + '.*' } },
+      function(err, data) {
+        console.log('data', data)
+      }
+    )
 
     res.send({ books })
   } catch (error) {
@@ -122,12 +123,13 @@ router.post('/booksSearch', auth, async (req, res) => {
 
 router.post('/booksSearchbyCategory', auth, async (req, res) => {
   try {
-  
     const { keyword } = req.body
-    const books = await   Book.find({ "title": { $regex: '.*' + keyword + '.*' } },
-   function(err,data){
-         console.log('data',data);
-  });
+    const books = await Book.find(
+      { title: { $regex: '.*' + keyword + '.*' } },
+      function(err, data) {
+        console.log('data', data)
+      }
+    )
 
     res.send({ books })
   } catch (error) {

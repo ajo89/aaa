@@ -36,7 +36,7 @@ const BookSchema = new Schema({
   imagee: {
     type: Buffer,
   },
-})  
+})
 
 const Book = model('Book', BookSchema)
 

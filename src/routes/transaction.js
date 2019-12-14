@@ -130,7 +130,6 @@ router.delete('/transaction', auth, async ({ user }, res) => {
 //remove 1 item by userID -- on progress,kok dibuang 1 object?
 router.delete('/transactionItem/:id', auth, async (req, res) => {
   try {
- 
     //cari subtotal dari ID, trs update
     // const a = await Transaction.findOne({ 'items._id' : req.params.id}).select({ 'item': 1, '_id': 0 }).exec( function(err, friendObj){
     //   console.log(friendObj)
@@ -138,28 +137,30 @@ router.delete('/transactionItem/:id', auth, async (req, res) => {
     // const a = await Transaction.find({ 'items._id' : req.params.id})
     //     const result = a.items.pull({_id: req.params.id})
 
-  
-
     // const a = Transaction.findOne({ 'items._id': req.params.id }).select({
     //   items: { $elemMatch: { id: req.params.id } },
     // })
 
-    var arr=[]
+    var arr = []
     arr.push(req.params.id)
 
-    const a = await Transaction.find({ 'items._id' : req.params.id},{items :  {
-      $elemMatch: {
-          'items.$._id' : {
-              $in: arr
-          }
+    const a = await Transaction.find(
+      { 'items._id': req.params.id },
+      {
+        items: {
+          $elemMatch: {
+            'items.$._id': {
+              $in: arr,
+            },
+          },
+        },
+      },
+      {
+        _id: 0,
+        'items.$': 1,
+        qty: 1,
       }
-  }},
-  {
-    _id: 0,
-    'items.$': 1,
-    'qty' :1
-  }
-)
+    )
     console.log(a)
     console.log(a.qty)
 
